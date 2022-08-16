@@ -7,6 +7,8 @@
     <title>Document</title>
   </head>
   <body>
+    <%- include('partials/username.ejs') %>
+
     This is <%= name %> <% for (let i=0; i < data.length ; i++) { %>
     <div style="background: red">
       <h1>Topic: <%= data[i].name %></h1>

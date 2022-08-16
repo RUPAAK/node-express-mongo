@@ -10,8 +10,11 @@ require("dotenv").config();
 app.set("view engine", "ejs");
 
 const staticPath = path.join(__dirname, "../public");
+const partialPath = path.join(__dirname, "../views");
 
 app.use(express.static(staticPath));
+
+app.set('views', partialPath)
 
 dbConnect();
 
