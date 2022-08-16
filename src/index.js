@@ -1,37 +1,58 @@
-const express= require('express')
-const path= require('path')
+const { table } = require("console");
+const express = require("express");
+const path = require("path");
+const getHome = require("./controllers/home");
+const dbConnect = require("./db");
 
-const app= express()
-require('dotenv').config()
+const app = express();
+require("dotenv").config();
 
 app.set("view engine", "ejs");
 
-const staticPath = path.join(__dirname, '../public')
+const staticPath = path.join(__dirname, "../public");
 
-app.use(express.static(staticPath))
+app.use(express.static(staticPath));
 
+dbConnect();
 
-app.get("/", (req, res)=>{
-    // res.send("Home Route")
-    res.render('home')
-})
+app.get(
+  "/",
+  (req, res, next) => {
+    if (req.query.name == "cecil") {
+      return res.send("This is ceil");
+    }
+    next();
+  },
+  getHome
+);
 
+app.get("/about", (req, res) => {
+  // const data = { name: "rakesh", age: 5 };
 
-app.get("/about", (req, res)=>{
-    // res.send("Home Route")
-    const data = ['ram']
-    res.render('about', {data: data})
-})
+  const dataArr = [
+    {
+      name: "Learn Node",
+      author: "Rakesh",
+    },
+    {
+      name: "Learn Serverless",
+      author: "Rupak",
+    },
+    {
+      name: "Learn React",
+      author: "Mark",
+    },
+  ];
 
+  res.render("about.ejs", { name: "Bimal", data: dataArr });
+});
 
-app.get('/getprofile', (req, res)=>{
-    res.send({
-        name: "Rakesh"
-    })
-})
+app.get("/getprofile", (req, res) => {
+  res.send({
+    name: "Rakesh",
+  });
+});
 
+const PORT = process.env.PORT || 8000;
 
-const PORT= process.env.PORT || 8000
-
-
-app.listen(PORT, ()=> console.log(`Server On : ${PORT}`))
+app.listen(PORT, () => console.log(`Server On : ${PORT}`));
