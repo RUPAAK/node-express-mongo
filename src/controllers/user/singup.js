@@ -16,10 +16,7 @@ const signUpUser = async (req, res) => {
       password: password,
     }).save();
 
-    // const user= await User.create({name, email, password})
-
-    // const createdUser= await user.save()
-
+    
     res.status(201).send({
       data: user,
     });
