@@ -9,12 +9,20 @@ const signInUser = async (req, res) => {
         data: "Some fields are missing",
       });
     }
-
-    const user = await User.findOne({ email });
+    
+    const user = await User.findOne({ email }).populate('detail', 'father_name mother_name');
 
     if (!user) {
       return res.status(400).send({
         data: "User not found",
+      });
+    }
+
+    const validPassword= await user.matchPassword(password)
+
+    if(!validPassword){
+      return res.status(400).send({
+        data: "User credientails not valid",
       });
     }
 
